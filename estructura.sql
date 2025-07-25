@@ -8,7 +8,7 @@ CREATE TABLE dueños (
 
 -- Tabla para Servicios
 CREATE TABLE servicios (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY IDENTITY(1,1), -- Cambiado de AUTO_INCREMENT a IDENTITY(1,1)
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio_base DECIMAL(10, 2) NOT NULL
@@ -16,21 +16,21 @@ CREATE TABLE servicios (
 
 -- Tabla para Mascotas
 CREATE TABLE mascotas (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY IDENTITY(1,1), -- Cambiado de AUTO_INCREMENT a IDENTITY(1,1)
     nombre VARCHAR(100) NOT NULL,
     especie VARCHAR(50) NOT NULL,
     raza VARCHAR(50),
     edad INT,
     sexo VARCHAR(10),
-    vacunada BOOLEAN,
+    vacunada BIT, -- Cambiado de BOOLEAN a BIT
     cedula_dueño VARCHAR(20) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT GETDATE(), -- Cambiado de TIMESTAMP a DATETIME y CURRENT_TIMESTAMP a GETDATE()
     FOREIGN KEY (cedula_dueño) REFERENCES dueños(cedula)
 );
 
 -- Tabla para Visitas
 CREATE TABLE visitas (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY IDENTITY(1,1), -- Cambiado de AUTO_INCREMENT a IDENTITY(1,1)
     mascota_id INT NOT NULL,
     servicio_id INT NOT NULL,
     fecha DATE NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE visitas (
 
 -- Tabla para Tratamientos
 CREATE TABLE tratamientos (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY IDENTITY(1,1), -- Cambiado de AUTO_INCREMENT a IDENTITY(1,1)
     visita_id INT NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     observaciones TEXT,

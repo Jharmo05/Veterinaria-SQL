@@ -1,11 +1,12 @@
--- 1. Creación de tabla a partir de consulta:
+-- 1. Creación de tabla a partir de consulta (CORREGIDO para SQL Server):
 -- Crea una tabla temporal con el historial de visitas de perros vacunados.
-CREATE TABLE historial_perros_vacunados AS
 SELECT
     m.nombre AS nombre_mascota,
     s.nombre AS nombre_servicio,
     v.fecha,
     d.nombre_completo AS nombre_dueño
+INTO
+    historial_perros_vacunados -- Cambiado de CREATE TABLE AS SELECT a SELECT INTO
 FROM
     mascotas m
 JOIN
@@ -15,7 +16,7 @@ JOIN
 JOIN
     dueños d ON m.cedula_dueño = d.cedula
 WHERE
-    m.especie = 'Perro' AND m.vacunada = TRUE;
+    m.especie = 'Perro' AND m.vacunada = 1; -- Cambiado de TRUE a 1 para BIT
 
 -- 2. Alias en campos:
 -- Selecciona el nombre completo del dueño y su número de teléfono con alias descriptivos.
@@ -25,7 +26,7 @@ SELECT
 FROM
     dueños;
 
--- 3. Alias en subconsultas (CORREGIDA):
+-- 3. Alias en subconsultas (ya corregida previamente):
 -- Muestra el nombre de las mascotas que han tenido al menos 2 visitas.
 SELECT
     m.nombre AS "Nombre de Mascota"
@@ -38,22 +39,22 @@ WHERE
 -- Calcula el número total de mascotas, la edad promedio de las mascotas, la mascota más joven y la más vieja.
 SELECT
     COUNT(id) AS "Total de Mascotas",
-    AVG(edad) AS "Edad Promedio de Mascotas",
+    AVG(CAST(edad AS DECIMAL(5,2))) AS "Edad Promedio de Mascotas", -- CAST para AVG si edad es INT y quieres decimales
     MIN(edad) AS "Mascota Más Joven (Edad)",
     MAX(edad) AS "Mascota Más Vieja (Edad)"
 FROM
     mascotas;
 
--- 5. CONCAT:
+-- 5. CONCAT (CORREGIDO para SQL Server usando + o CONCAT):
 -- Concatena el nombre de la mascota y su especie para mostrar una descripción.
 SELECT
-    CONCAT(nombre, ' (', especie, ')') AS "Mascota y Especie"
+    nombre + ' (' + especie + ')' AS "Mascota y Especie" -- Usando + para concatenación
 FROM
     mascotas;
 
--- 6. UPPER, LOWER:
+-- 6. UPPER, LOWER (CORREGIDO para SQL Server con TOP):
 -- Muestra los nombres de los servicios en mayúsculas y los nombres de las mascotas en minúsculas.
-SELECT
+SELECT TOP 5 -- Cambiado de LIMIT a TOP
     UPPER(s.nombre) AS "Servicio en Mayúsculas",
     LOWER(m.nombre) AS "Mascota en Minúsculas"
 FROM
@@ -61,25 +62,24 @@ FROM
 JOIN
     visitas v ON s.id = v.servicio_id
 JOIN
-    mascotas m ON v.mascota_id = m.id
-LIMIT 5; -- Limitar para una muestra
+    mascotas m ON v.mascota_id = m.id;
 
--- 7. LENGTH, SUBSTRING, TRIM:
+-- 7. LEN, SUBSTRING, LTRIM/RTRIM (CORREGIDO para SQL Server):
 -- Muestra la longitud del nombre del dueño, un subconjunto de su dirección y la dirección sin espacios extra.
 SELECT
     nombre_completo,
-    LENGTH(nombre_completo) AS "Longitud del Nombre",
+    LEN(nombre_completo) AS "Longitud del Nombre", -- LENGTH es LEN en SQL Server
     SUBSTRING(direccion, 1, 15) AS "Inicio de Dirección",
-    TRIM(direccion) AS "Dirección sin Espacios"
+    LTRIM(RTRIM(direccion)) AS "Dirección sin Espacios" -- TRIM es LTRIM(RTRIM()) o TRIM() en SQL Server 2017+
 FROM
     dueños;
 
--- 8. IF en campos (ejemplo usando CASE para simular IF en SQL estándar):
+-- 8. CASE en campos (simulando IF en SQL estándar):
 -- Muestra si una mascota está vacunada o no, usando un "IF" lógico.
 SELECT
     nombre AS "Nombre Mascota",
     CASE
-        WHEN vacunada = TRUE THEN 'Sí'
+        WHEN vacunada = 1 THEN 'Sí' -- Cambiado de TRUE a 1 para BIT
         ELSE 'No'
     END AS "Está Vacunada"
 FROM
@@ -123,17 +123,16 @@ SELECT
 FROM
     dueños d
 WHERE
-    d.cedula IN (SELECT cedula_dueño FROM mascotas WHERE vacunada = FALSE);
+    d.cedula IN (SELECT cedula_dueño FROM mascotas WHERE vacunada = 0); -- Cambiado de FALSE a 0 para BIT
 
--- 12. Consulta para obtener el servicio más caro:
-SELECT
+-- 12. Consulta para obtener el servicio más caro (CORREGIDO para SQL Server con TOP):
+SELECT TOP 1 -- Cambiado de LIMIT a TOP
     nombre AS "Servicio Más Caro",
     precio_base AS "Precio"
 FROM
     servicios
 ORDER BY
-    precio_base DESC
-LIMIT 1;
+    precio_base DESC;
 
 -- 13. Consulta para contar mascotas por especie:
 SELECT
