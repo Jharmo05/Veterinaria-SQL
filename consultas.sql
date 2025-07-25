@@ -1,4 +1,3 @@
-
 -- 1. Creación de tabla a partir de consulta:
 -- Crea una tabla temporal con el historial de visitas de perros vacunados.
 CREATE TABLE historial_perros_vacunados AS
@@ -26,14 +25,14 @@ SELECT
 FROM
     dueños;
 
--- 3. Alias en subconsultas:
--- Muestra el nombre de las mascotas que han tenido al menos 2 visitas, usando un alias para la subconsulta.
+-- 3. Alias en subconsultas (CORREGIDA):
+-- Muestra el nombre de las mascotas que han tenido al menos 2 visitas.
 SELECT
     m.nombre AS "Nombre de Mascota"
 FROM
     mascotas m
 WHERE
-    m.id IN (SELECT mascota_id FROM visitas GROUP BY mascota_id HAVING COUNT(id) >= 2) AS MascotasConVariasVisitas;
+    m.id IN (SELECT mascota_id FROM visitas GROUP BY mascota_id HAVING COUNT(id) >= 2);
 
 -- 4. Funciones de agregación (COUNT, AVG, MAX, etc.) y Alias en funciones de agregación:
 -- Calcula el número total de mascotas, la edad promedio de las mascotas, la mascota más joven y la más vieja.

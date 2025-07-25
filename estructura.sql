@@ -1,5 +1,3 @@
-
-
 -- Tabla para Dueños
 CREATE TABLE dueños (
     cedula VARCHAR(20) PRIMARY KEY,

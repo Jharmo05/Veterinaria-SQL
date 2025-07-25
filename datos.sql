@@ -1,5 +1,3 @@
-
-
 -- Insertar 5 Dueños
 INSERT INTO dueños (cedula, nombre_completo, telefono, direccion) VALUES
 ('1001', 'Juan Pérez García', '3001234567', 'Calle 10 # 20-30, Bogotá'),
