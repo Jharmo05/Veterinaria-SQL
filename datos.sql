@@ -1,4 +1,4 @@
--- Archivo DML para la Base de Datos "Veterinaria Mi Mejor Amigo"
+
 
 -- Insertar 5 Dueños
 INSERT INTO dueños (cedula, nombre_completo, telefono, direccion) VALUES

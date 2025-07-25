@@ -1,4 +1,4 @@
--- Archivo DDL para la Base de Datos "Veterinaria Mi Mejor Amigo"
+
 
 -- Tabla para Dueños
 CREATE TABLE dueños (
