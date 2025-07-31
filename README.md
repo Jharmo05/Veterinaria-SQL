@@ -63,9 +63,6 @@ Este archivo presenta un conjunto de **15 consultas SQL** que demuestran la capa
 3.  **Inserción de Datos (DML):** Se poblaron las tablas con datos de ejemplo para simular un escenario real. ➕
 4.  **Desarrollo de Consultas (DQL):** Se elaboraron las consultas para extraer información relevante y demostrar la funcionalidad de la base de datos. 🔍
 
-## Video Explicación de Consultas 🎬
-
-\[**¡Inserta aquí el enlace a tu video de YouTube/Vimeo/etc. explicando las consultas!**]
 
 ## Configuración y Uso ⚙️
 
